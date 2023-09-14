@@ -39,6 +39,13 @@ class Student:
                         f'{", ".join(self.finished_courses)}')
         return some_student
 
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            print('Человек ошибся аудиторией, он не является'
+                  ' студентом данного потока!')
+            return
+        return self.average_rating() > other.average_rating()
+
 
 class Mentor:
     def __init__(self, name, surname):
@@ -65,6 +72,12 @@ class Lecturer(Mentor):
                          f'Фамилия: {self.surname}\n'
                          f'Средняя оценка за лекции: {self.average_rating()}')
         return some_lecturer
+
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print('Данный товарищ не является лектором!')
+            return
+        return self.average_rating() > other.average_rating()
 
 
 class Reviewer(Mentor):
@@ -178,7 +191,19 @@ print(reviewer_2.__str__())
 print()
 print('$'*79)
 print()
+print("Сравнение студентов по средней оценке:")
+print(student_1.__lt__(student_2))
+print(student_2 > student_1)
+print(student_1 == student_2)
+student_1.__lt__(lecturer_1)
+print()
+print('Сравнение лекторов по средней оценке за лекции:')
+print(lecturer_1.__lt__(lecturer_2))
+print(lecturer_2 == student_1)
+print(lecturer_2 > lecturer_1)
+lecturer_1.__lt__(student_2)
 
+print()
 print('*')
 comparison_of_students = comparison_of_students(Student.students, 'Python')
 comparison_of_lecturers = comparison_of_lecturers(Lecturer.lecturers, \
@@ -188,6 +213,5 @@ print(f'Подсчет средней оценки за домашние зад�
 print(f'Подсчет средней оценки за лекции всех лекторов '
       f'в рамках курса Python: {comparison_of_lecturers}')
 print('*')
-
 
 
